@@ -228,6 +228,13 @@ def main():
 
     #Upload to S3 under output/ 
     s3_key = os.path.join(OUTPUT_PREFIX, json_name)
+    #upload the csv file
+    s3_key_csv = os.path.join(OUTPUT_PREFIX, csv_name)
+    try:
+        upload_public(bucket, csv_name, s3_key_csv)
+    except Exception as e:
+        print(f"Failed to upload {csv_name}: {e}")
+
 
     try:
         upload_public(bucket, json_name, s3_key)
