@@ -153,16 +153,16 @@ def main():
     prefix = args.prefix or os.getenv("INPUT_PREFIX")
     # Debug parser
     if args.debug:
-        tests = [t.strip() for t in args.debug.split(",")]
+        tests = [t.strip() for t in args.debug.split("|")]
         df = pd.DataFrame(columns=[
             "raw_input", "is_safe", "safety_conf", "safety_reason",
             "audience_cat", "aud_conf", "aud_reason"
         ])
         for t in tests:
-            print("test")
             try:
                 parsed = parse_assistant_reply(t)
             except Exception as e:
+                print(f"Error parsing {t}: {e}")
                 parsed = {
                     "is_safe": False, "safety_conf": 0, "safety_reason": e.__class__.__name__,
                     "audience_cat": 0, "aud_conf": 0, "aud_reason": e.__class__.__name__,
