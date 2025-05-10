@@ -151,7 +151,6 @@ def main():
     args = ap.parse_args()
     bucket = args.bucket or os.getenv("INPUT_BUCKET")
     prefix = args.prefix or os.getenv("INPUT_PREFIX")
-
     # Debug parser
     if args.debug:
         tests = [t.strip() for t in args.debug.split(",")]
@@ -160,6 +159,7 @@ def main():
             "audience_cat", "aud_conf", "aud_reason"
         ])
         for t in tests:
+            print("test")
             try:
                 parsed = parse_assistant_reply(t)
             except Exception as e:
@@ -169,6 +169,7 @@ def main():
                 }
             parsed["raw_input"] = t
             df = pd.concat([df, pd.DataFrame([parsed])], ignore_index=True)
+        df.to_csv("debug.csv", index=False)
 
         return
 
